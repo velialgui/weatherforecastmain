@@ -29,8 +29,6 @@ const temp = document.getElementById("temp"),
 let currentCity = "";
 let currentUnit = "f";
 let hourlyorWeek = "week";
-
-// function to get date and time
 function getDateTime() {
   let now = new Date(),
     hour = now.getHours(),
@@ -45,7 +43,6 @@ function getDateTime() {
     "Friday",
     "Saturday",
   ];
-  // 12 hours format
   hour = hour % 12;
   if (hour < 10) {
     hour = "0" + hour;
@@ -57,13 +54,11 @@ function getDateTime() {
   return `${dayString}, ${hour}:${minute}`;
 }
 
-//Updating date and time
 date.innerText = getDateTime();
 setInterval(() => {
   date.innerText = getDateTime();
 }, 1000);
 
-// function to get public ip address
 function getPublicIp() {
   fetch("https://geolocation-db.com/json/", {
     method: "GET",
@@ -81,7 +76,6 @@ function getPublicIp() {
 
 getPublicIp();
 
-// function to get weather data // api key with weather visual crossing
 function getWeatherData(city, unit, hourlyorWeek) {
   fetch(
     `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}?unitGroup=metric&key=DBJWK5B229UTPHSZ6Q7VSWUKF&contentType=json`,
@@ -125,7 +119,6 @@ function getWeatherData(city, unit, hourlyorWeek) {
     });
 }
 
-//function to update Forecast
 function updateForecast(data, unit, type) {
   weatherCards.innerHTML = "";
   let day = 0;
@@ -203,7 +196,6 @@ function getIcon(condition) {
   }
 }
 
-// function to change background depending on weather conditions
 function changeBackground(condition) {
   const body = document.querySelector("body");
   let bg = "";
@@ -223,7 +215,6 @@ function changeBackground(condition) {
   body.style.backgroundImage = `linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ),url(${bg})`;
 }
 
-//get hours from hh:mm:ss
 function getHour(time) {
   let hour = time.split(":")[0];
   let min = time.split(":")[1];
@@ -235,20 +226,18 @@ function getHour(time) {
   }
 }
 
-// convert time to 12 hour format
 function covertTimeTo12HourFormat(time) {
   let hour = time.split(":")[0];
   let minute = time.split(":")[1];
   let ampm = hour >= 12 ? "pm" : "am";
   hour = hour % 12;
-  hour = hour ? hour : 12; // the hour '0' should be '12'
+  hour = hour ? hour : 12;
   hour = hour < 10 ? "0" + hour : hour;
   minute = minute < 10 ? "0" + minute : minute;
   let strTime = hour + ":" + minute + " " + ampm;
   return strTime;
 }
 
-// function to get day name from date
 function getDayName(date) {
   let day = new Date(date);
   let days = [
@@ -263,7 +252,6 @@ function getDayName(date) {
   return days[day.getDay()];
 }
 
-// function to get uv index status
 function measureUvIndex(uvIndex) {
   if (uvIndex <= 2) {
     uvText.innerText = "Low";
@@ -278,7 +266,6 @@ function measureUvIndex(uvIndex) {
   }
 }
 
-// function to get humidity status
 function updateHumidityStatus(humidity) {
   if (humidity <= 30) {
     humidityStatus.innerText = "Low";
@@ -289,7 +276,6 @@ function updateHumidityStatus(humidity) {
   }
 }
 
-// function to get visibility status
 function updateVisibiltyStatus(visibility) {
   if (visibility <= 0.03) {
     visibilityStatus.innerText = "Dense Fog";
@@ -310,7 +296,6 @@ function updateVisibiltyStatus(visibility) {
   }
 }
 
-// function to get air quality status
 function updateAirQualityStatus(airquality) {
   if (airquality <= 50) {
     airQualityStatus.innerText = "Good";
@@ -327,7 +312,6 @@ function updateAirQualityStatus(airquality) {
   }
 }
 
-// function to handle search form
 searchForm.addEventListener("submit", (e) => {
   e.preventDefault();
   let location = search.value;
@@ -337,13 +321,9 @@ searchForm.addEventListener("submit", (e) => {
   }
 });
 
-// function to conver celcius to fahrenheit
 function celciusToFahrenheit(temp) {
   return ((temp * 9) / 5 + 32 + 5).toFixed(1);
 }
-
-
-
 
 var currentFocus;
 search.addEventListener("input", function (e) {
@@ -363,21 +343,15 @@ search.addEventListener("input", function (e) {
   this.parentNode.appendChild(a);
 
   for (i = 0; i < cities.length; i++) {
-    /*check if the item starts with the same letters as the text field value:*/
     if (
       cities[i].name.substr(0, val.length).toUpperCase() == val.toUpperCase()
     ) {
-      /*create a li element for each matching element:*/
       b = document.createElement("li");
-      /*make the matching letters bold:*/
       b.innerHTML =
         "<strong>" + cities[i].name.substr(0, val.length) + "</strong>";
       b.innerHTML += cities[i].name.substr(val.length);
-      /*insert a input field that will hold the current array item's value:*/
       b.innerHTML += "<input type='hidden' value='" + cities[i].name + "'>";
-      /*execute a function when someone clicks on the item value (DIV element):*/
       b.addEventListener("click", function (e) {
-        /*insert the value for the autocomplete text field:*/
         search.value = this.getElementsByTagName("input")[0].value;
         removeSuggestions();
       });
@@ -386,46 +360,31 @@ search.addEventListener("input", function (e) {
     }
   }
 });
-/*execute a function presses a key on the keyboard:*/
 search.addEventListener("keydown", function (e) {
   var x = document.getElementById("suggestions");
   if (x) x = x.getElementsByTagName("li");
   if (e.keyCode == 40) {
-    /*If the arrow DOWN key
-      is pressed,
-      increase the currentFocus variable:*/
     currentFocus++;
-    /*and and make the current item more visible:*/
     addActive(x);
   } else if (e.keyCode == 38) {
-    /*If the arrow UP key
-      is pressed,
-      decrease the currentFocus variable:*/
     currentFocus--;
-    /*and and make the current item more visible:*/
     addActive(x);
   }
   if (e.keyCode == 13) {
-    /*If the ENTER key is pressed, prevent the form from being submitted,*/
     e.preventDefault();
     if (currentFocus > -1) {
-      /*and simulate a click on the "active" item:*/
       if (x) x[currentFocus].click();
     }
   }
 });
 function addActive(x) {
-  /*a function to classify an item as "active":*/
   if (!x) return false;
-  /*start by removing the "active" class on all items:*/
   removeActive(x);
   if (currentFocus >= x.length) currentFocus = 0;
   if (currentFocus < 0) currentFocus = x.length - 1;
-  /*add class "autocomplete-active":*/
   x[currentFocus].classList.add("active");
 }
 function removeActive(x) {
-  /*a function to remove the "active" class from all autocomplete items:*/
   for (var i = 0; i < x.length; i++) {
     x[i].classList.remove("active");
   }
@@ -442,8 +401,6 @@ fahrenheitBtn.addEventListener("click", () => {
 celciusBtn.addEventListener("click", () => {
   changeUnit("c");
 });
-
-// function to change unit
 function changeUnit(unit) {
   if (currentUnit !== unit) {
     currentUnit = unit;
@@ -474,7 +431,6 @@ aboutBtn.addEventListener("click", () => {
   changeTimeSpan("week");
 });
 
-// function to change hourly to weekly or vice versa
 function changeTimeSpan(unit) {
   if (hourlyorWeek !== unit) {
     hourlyorWeek = unit;
