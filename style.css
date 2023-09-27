@@ -28,6 +28,12 @@ body {
 img {
   width: 100%;
 }
+
+.avatar-image {
+  width: 300px; 
+  height: auto; /* This maintains the aspect ratio */
+}
+
 .wrapper {
   display: flex;
   width: 1200px;
