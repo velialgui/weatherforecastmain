@@ -1,3 +1,21 @@
+/*function WeatherModel(weatherData, cityName) {
+  const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  this.lat = weatherData.lat;
+  this.lon = weatherData.lon;
+  this.currentDate = new Date().toLocaleDateString("en-US", { weekday: "long", day: "numeric", month: "long" });
+  this.celsiusTemperature = `${Math.round(weatherData.current.temp - 273.15)}°C`;
+  this.weatherCondition = capitalizeFirstLetter(weatherData.current.weather[0].description);
+  this.cityName = cityName;
+  this.dailyForecast = setDailyForecast(weatherData.daily);
+  this.sunrise = formatTime(weatherData.current.sunrise);
+  this.sunset = formatTime(weatherData.current.sunset);
+  this.feelsLike = formatTemperature(weatherData.current.feels_like);
+  this.humidity = formatPercentage(weatherData.current.humidity);
+  this.windSpeed = formatSpeed(weatherData.current.wind_speed);
+  this.uvi = Math.round(weatherData.current.uvi);
+  this.dailyForecastListOne = setHourlyForecastList(weatherData.hourly.slice(0, 7));
+  this.dailyForecastListTwo = setHourlyForecastList(weatherData.hourly.slice(7, 14)); */
+
 const temp = document.getElementById("temp"),
   date = document.getElementById("date-time"),
   condition = document.getElementById("condition"),
@@ -13,7 +31,7 @@ const temp = document.getElementById("temp"),
   weekBtn = document.querySelector(".week"),
   contactBtn = document.querySelector(".contact"),
   aboutBtn = document.querySelector(".about")
-  weatherCards = document.querySelector("#weather-cards"),
+  /*weatherCards = document.querySelector("#weather-cards"),*/
   rain = document.getElementById("rain"),
   mainIcon = document.getElementById("icon"),
   currentLocation = document.getElementById("location"),
@@ -54,6 +72,19 @@ function getDateTime() {
   return `${dayString}, ${hour}:${minute}`;
 }
 
+/*function setDailyForecast(dailyData) {
+  return dailyData.slice(0, 7).map((data) => {
+    const timestamp = data.dt * 1000;
+    const dateTime = new Date(timestamp);
+    const weekday = daysOfWeek[dateTime.getDay()];
+    const abbreviatedWeekday = abbreviateWeekday(weekday);
+    const minC = Math.round(data.temp.min - 273.15);
+    const maxC = Math.round(data.temp.max - 273.15);
+    const icon = data.weather[0].icon;
+
+    return [abbreviatedWeekday, `${minC}°C`, `${maxC}°C`, icon];
+  });
+}*/
 date.innerText = getDateTime();
 setInterval(() => {
   date.innerText = getDateTime();
